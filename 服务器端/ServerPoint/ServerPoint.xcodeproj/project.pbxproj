@@ -10,6 +10,9 @@
 		BC9E79AA1C1EBEB60037C5EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC9E79A91C1EBEB60037C5EC /* Foundation.framework */; };
 		BC9E79AD1C1EBEB60037C5EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9E79AC1C1EBEB60037C5EC /* main.m */; };
 		BC9E79B11C1EBEB60037C5EC /* ServerPoint.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = BC9E79B01C1EBEB60037C5EC /* ServerPoint.1 */; };
+		BCE158E51C2010D00004102B /* Server.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE158E41C2010D00004102B /* Server.m */; };
+		BCE158E81C2015B50004102B /* Room.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE158E71C2015B50004102B /* Room.m */; };
+		BCE158EB1C201A9B0004102B /* SCKSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE158EA1C201A9B0004102B /* SCKSocket.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +34,13 @@
 		BC9E79AC1C1EBEB60037C5EC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BC9E79AF1C1EBEB60037C5EC /* ServerPoint-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ServerPoint-Prefix.pch"; sourceTree = "<group>"; };
 		BC9E79B01C1EBEB60037C5EC /* ServerPoint.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = ServerPoint.1; sourceTree = "<group>"; };
+		BCE158E21C200F370004102B /* hostConfigurationFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = hostConfigurationFile; sourceTree = "<group>"; };
+		BCE158E31C2010D00004102B /* Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Server.h; sourceTree = "<group>"; };
+		BCE158E41C2010D00004102B /* Server.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Server.m; sourceTree = "<group>"; };
+		BCE158E61C2015B50004102B /* Room.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Room.h; sourceTree = "<group>"; };
+		BCE158E71C2015B50004102B /* Room.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Room.m; sourceTree = "<group>"; };
+		BCE158E91C201A9B0004102B /* SCKSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCKSocket.h; sourceTree = "<group>"; };
+		BCE158EA1C201A9B0004102B /* SCKSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCKSocket.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +84,13 @@
 			isa = PBXGroup;
 			children = (
 				BC9E79AC1C1EBEB60037C5EC /* main.m */,
+				BCE158E91C201A9B0004102B /* SCKSocket.h */,
+				BCE158EA1C201A9B0004102B /* SCKSocket.m */,
+				BCE158E61C2015B50004102B /* Room.h */,
+				BCE158E71C2015B50004102B /* Room.m */,
+				BCE158E31C2010D00004102B /* Server.h */,
+				BCE158E41C2010D00004102B /* Server.m */,
+				BCE158E21C200F370004102B /* hostConfigurationFile */,
 				BC9E79B01C1EBEB60037C5EC /* ServerPoint.1 */,
 				BC9E79AE1C1EBEB60037C5EC /* Supporting Files */,
 			);
@@ -139,6 +156,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCE158EB1C201A9B0004102B /* SCKSocket.m in Sources */,
+				BCE158E81C2015B50004102B /* Room.m in Sources */,
+				BCE158E51C2010D00004102B /* Server.m in Sources */,
 				BC9E79AD1C1EBEB60037C5EC /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -253,6 +273,7 @@
 				BC9E79B61C1EBEB60037C5EC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
