@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>93F6898E-E106-45CB-B616-1174F5F21EAC</string>
+	<key>IDESourceControlProjectName</key>
+	<string>ClientPoint</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>DCBA2DF7-6DE1-4E32-A318-95B5F0B0A305</key>
+		<string>https://github.com/sunchangkai/PokerGame.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>客户端/ClientPoint/ClientPoint.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>DCBA2DF7-6DE1-4E32-A318-95B5F0B0A305</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/sunchangkai/PokerGame.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>DCBA2DF7-6DE1-4E32-A318-95B5F0B0A305</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>DCBA2DF7-6DE1-4E32-A318-95B5F0B0A305</string>
+			<key>IDESourceControlWCCName</key>
+			<string>PokerGame</string>
+		</dict>
+	</array>
+</dict>
+</plist>

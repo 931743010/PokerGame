@@ -10,6 +10,9 @@
 		BC9E79C41C1EBED30037C5EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC9E79C31C1EBED30037C5EC /* Foundation.framework */; };
 		BC9E79C71C1EBED30037C5EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9E79C61C1EBED30037C5EC /* main.m */; };
 		BC9E79CB1C1EBED30037C5EC /* ClientPoint.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = BC9E79CA1C1EBED30037C5EC /* ClientPoint.1 */; };
+		BCE136C31C2E3BF000440A8A /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE136C21C2E3BF000440A8A /* Person.m */; };
+		BCE136C71C2E40FA00440A8A /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE136C61C2E40FA00440A8A /* Client.m */; };
+		BCE136CA1C2E494700440A8A /* SCKSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE136C91C2E494700440A8A /* SCKSocket.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +34,13 @@
 		BC9E79C61C1EBED30037C5EC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BC9E79C91C1EBED30037C5EC /* ClientPoint-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ClientPoint-Prefix.pch"; sourceTree = "<group>"; };
 		BC9E79CA1C1EBED30037C5EC /* ClientPoint.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = ClientPoint.1; sourceTree = "<group>"; };
+		BCE136C11C2E3BF000440A8A /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
+		BCE136C21C2E3BF000440A8A /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
+		BCE136C41C2E3D4100440A8A /* clientConfigFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = clientConfigFile; sourceTree = "<group>"; };
+		BCE136C51C2E40FA00440A8A /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
+		BCE136C61C2E40FA00440A8A /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Client.m; sourceTree = "<group>"; };
+		BCE136C81C2E494700440A8A /* SCKSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCKSocket.h; sourceTree = "<group>"; };
+		BCE136C91C2E494700440A8A /* SCKSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCKSocket.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +84,13 @@
 			isa = PBXGroup;
 			children = (
 				BC9E79C61C1EBED30037C5EC /* main.m */,
+				BCE136C11C2E3BF000440A8A /* Person.h */,
+				BCE136C21C2E3BF000440A8A /* Person.m */,
+				BCE136C51C2E40FA00440A8A /* Client.h */,
+				BCE136C61C2E40FA00440A8A /* Client.m */,
+				BCE136C81C2E494700440A8A /* SCKSocket.h */,
+				BCE136C91C2E494700440A8A /* SCKSocket.m */,
+				BCE136C41C2E3D4100440A8A /* clientConfigFile */,
 				BC9E79CA1C1EBED30037C5EC /* ClientPoint.1 */,
 				BC9E79C81C1EBED30037C5EC /* Supporting Files */,
 			);
@@ -139,7 +156,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCE136CA1C2E494700440A8A /* SCKSocket.m in Sources */,
+				BCE136C31C2E3BF000440A8A /* Person.m in Sources */,
 				BC9E79C71C1EBED30037C5EC /* main.m in Sources */,
+				BCE136C71C2E40FA00440A8A /* Client.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +273,7 @@
 				BC9E79D01C1EBED30037C5EC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

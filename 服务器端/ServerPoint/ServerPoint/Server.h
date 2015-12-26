@@ -20,27 +20,34 @@
 -(NSMutableDictionary *)socketAndNameDic;
 
 
-
-//socket所需主机端口号(从配置文件hostConfigurationFile中读取)
-@property (nonatomic, assign) int hostpoint;
 //socket所需主机ip地址(从配置文件hostConfigurationFile中读取)
-@property (nonatomic, copy) NSString *hostAddress;
+//@property (nonatomic, copy) NSString *hostAddress;
+//socket所需主机端口号(从配置文件hostConfigurationFile中读取)
+@property (nonatomic, assign) int hostPoint;
 //socket号
 @property (nonatomic, assign) int socketNum;
 
 
+-(id)initWithFile:(NSString *)path;
+
 //创建服务器对象，单例模式
-+(Server *)defaultPoint;
++(Server *)defaultPoint:(NSString *)hostConfigurationFile;
 //释放服务器对象
 +(void)deletePoint;
 
 
 //返回所有房间信息
 -(NSString *)allRoomInfoView;
-
-
 //判断房间是否可用
 -(BOOL)isExistFreeRoom:(NSString *)roomId;
+
+
+//创建连接
+-(void)createServerSocket;
+//等待连接
+-(void)waitForClientJoin;
+
+
 
 
 @end

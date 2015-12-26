@@ -8,6 +8,7 @@
 
 #import "Server.h"
 #import "Room.h"
+#import "SCKSocket.h"
 
 #define ROOMCOUNT 20     //房间数量
 
@@ -23,6 +24,20 @@ static Server *signServer = nil;
     if (self = [super init]) {
         _allRoomInfo = [[NSMutableArray alloc] initWithCapacity:ROOMCOUNT];
         _socketAndNameDic = [[NSMutableDictionary alloc] initWithCapacity:ROOMCOUNT * 3];
+        
+        //读取配置文件，获取主机IP于端口号
+    }
+    return self;
+}
+-(id)initWithFile:(NSString *)path{
+    if (self = [super init]) {
+        _allRoomInfo = [[NSMutableArray alloc] initWithCapacity:ROOMCOUNT];
+        _socketAndNameDic = [[NSMutableDictionary alloc] initWithCapacity:ROOMCOUNT * 3];
+        
+        //读取配置文件，获取主机IP于端口号
+        NSString *fileString = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+       
+        _hostPoint = [fileString intValue];
     }
     return self;
 }
@@ -48,11 +63,11 @@ static Server *signServer = nil;
  *
  *  @return 单例对象
  */
-+(Server *)defaultPoint{
++(Server *)defaultPoint:(NSString *)hostConfigurationFile{
     @synchronized(self){
         if (signServer == nil) {
             //创建服务器对象
-            signServer = [[Server alloc] init];
+            signServer = [[Server alloc] initWithFile:hostConfigurationFile];
             //创建好服务器对象后直接添加ROOMCOUNT个空房间
             for (int i = 1; i <= ROOMCOUNT; i++) {
                 Room *room = [[Room alloc] initWithRoomNum:i];
@@ -96,7 +111,7 @@ static Server *signServer = nil;
 *
 ************************************************************
  */
--(NSString *)roomInfoView{
+-(NSString *)allRoomInfoView{
     NSString *s = @"************************************************************";
     NSMutableString *viewInfoString = [[NSMutableString alloc] init];
     [viewInfoString appendFormat:@"\n%@\n*\n*\n", s];
@@ -134,6 +149,99 @@ static Server *signServer = nil;
     return NO;
 }
 
+/**
+ *  创建socket连接
+ */
+-(void)createServerSocket{
+    self.socketNum = [SCKSocket SCKNetMakeSocketWithPort:_hostPoint];
+}
+
+
+
+-(void)waitForClientJoin{
+    while (1) {
+        NSLog(@"等待客户端连接……\n\n\n");
+        NSMutableString *clientAddress = [[NSMutableString alloc] init];
+        int accept = [SCKSocket SCKNetAcceptSocketWithSocket:self.socketNum receiveClientIp:clientAddress isBlock:1];
+        //NSLog(@"clientAddress = %@", clientAddress);
+        
+        
+        NSMutableString *readString = [[NSMutableString alloc] initWithCapacity:700];
+        [SCKSocket SCKNetReadDataWithSocket:accept data:readString size:700];
+        
+        //验证用户名是否可用
+        int flag = 0;
+        for (NSNumber *key in _socketAndNameDic) {
+            NSString *oneName = _socketAndNameDic[key];
+            if ([oneName isEqualToString:readString]) {
+                flag = 1;
+                break;
+            }
+        }
+        
+        if (flag == 1) {
+            [SCKSocket SCKNetWriteDataWithSocket:accept data:@"NO" size:700];
+            [SCKSocket SCKNetCloseSocket:&accept];
+        }else{
+            [SCKSocket SCKNetWriteDataWithSocket:accept data:@"YES" size:700];
+            //将此客户端号存入服务器数组
+            [_socketAndNameDic setObject:readString forKey:[NSNumber numberWithInt:accept]];
+            
+            
+            //用户验证链接成功，则服务器开启对象用户处理线程
+            NSThread *myThread = [[NSThread alloc] initWithTarget:self selector:@selector(run:) object:[NSNumber numberWithInt:accept]];
+            myThread.name = [NSString stringWithFormat:@"%d", accept];
+            [myThread start];
+        }
+    }
+}
+
+-(void)run:(NSNumber *)accept{
+    NSLog(@"in run");
+    
+//    NSMutableString *readString = [[NSMutableString alloc] initWithCapacity:700];
+//    NSMutableString *writeString = [[NSMutableString alloc] initWithCapacity:700];
+//    
+//    //首次发送当前房间信息
+//    [writeString appendFormat:@"FIRSTREFRESHROOMINFO##%@", [self roomInfoView]];
+//    [SCKSocket SCKNetWriteDataWithSocket:[accept intValue] data:writeString size:700];
+//    [writeString setString:@""];
+//    
+//    while (1) {
+//        //读取服务器发送的数据
+//        [readString setString:@""];
+//        [writeString setString:@""];
+//        [SCKSocket SCKNetReadDataWithSocket:[accept intValue] data:readString size:700];
+//        
+//        NSArray *array = [readString componentsSeparatedByString:@"##"];
+//        
+//        if ([array[0] isEqualToString:@"CHOOSEROOM"]) {
+//            //判断房间是否可用
+//            BOOL is = [self isExistFreeRoom:array[1]];
+//            if (!is) {
+//                //房间不可用
+//                [SCKSocket SCKNetWriteDataWithSocket:[accept intValue] data:@"ROOM##NO" size:700];
+//            }else{
+//                //房间可用
+//                [SCKSocket SCKNetWriteDataWithSocket:[accept intValue] data:@"ROOM##YES" size:700];
+//                
+//                //房间相应人数增加一人
+//                for (Room *room in _allRoomInfo) {
+//                    if (room.roomNum == [array[1] intValue]) {
+//                        room.personNum += 1;
+//                        [room.threePersonArray addObject:accept];
+//                    }
+//                }
+//                //通知每一个用户刷新房间信息
+//                for (NSNumber *socket in _socketAndNameDic) {
+//                    [writeString appendFormat:@"ALLREFRESHROOMINFO##%@", [self roomInfoView]];
+//                    [SCKSocket SCKNetWriteDataWithSocket:[socket intValue] data:writeString size:700];
+//                    [writeString setString:@""];
+//                }
+//            }
+//        }
+//    }
+}
 
 
 @end

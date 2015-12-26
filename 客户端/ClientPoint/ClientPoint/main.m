@@ -7,14 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Client.h"
 
 int main(int argc, const char * argv[])
 {
 
     @autoreleasepool {
         
-        // insert code here...
-        NSLog(@"sunck is a good man!");
+        //创建服务器对象
+        Client *client = [[Client alloc] init];
+        
+        [client viewDidLoad];
         
     }
     return 0;

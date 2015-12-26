@@ -20,10 +20,9 @@
 
 @interface SCKSocket : NSObject
 
-//创建socket、绑定socket、监听socket
-+(int)SCKNetMakeSocketWithPort:(int)nPort;
-//等待客户端连接
-+(int)SCKNetAcceptSocketWithSocket:(int)nSocket receiveClientIp:(NSMutableString *)address isBlock:(char)blockFlag;
+//连接socket
+//+(int)SCKNetConnectWithServerAddress:(char *)host andPort:(int)nPort andDelayTime:(int)timeOut;
++(int)SCKNetConnectWithServerAddress:(NSString *)hostAdress andPort:(int)nPort andDelayTime:(int)timeOut;
 //发送数据
 +(NSUInteger)SCKNetWriteDataWithSocket:(int)nSocket data:(NSString *)dataString size:(int)lWriteSize;
 //读取数据
