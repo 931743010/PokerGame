@@ -51,6 +51,9 @@
     //连接服务器
     [_player joinServerWithAddress:self.hostAddress andPoint:self.hostPoint];
     
+    
+    
+    
     //判断用户名是否可用
     [_player checkName];
     if (!_isUse) {
@@ -60,7 +63,7 @@
         return;
     }
     
-    
+    //选择房间等待游戏开始
     [_player play];
     
     
@@ -232,10 +235,17 @@
             NSLog(@"请输入房间号:");
             scanf("%s", getStr);
             NSString *roomNum = [NSString stringWithUTF8String:getStr];
-            [writeString appendFormat:@"CHOOSEROOM##%@", roomNum];
-            [SCKSocket SCKNetWriteDataWithSocket:self.clientSocket data:writeString size:700];
+            //手动刷新房间信息
+            if ([roomNum isEqualToString:@"refresh"]) {
+                [writeString appendFormat:@"REFRESHROOM##%@", roomNum];
+                [SCKSocket SCKNetWriteDataWithSocket:self.clientSocket data:writeString size:700];
+            }else{
+                [writeString appendFormat:@"CHOOSEROOM##%@", roomNum];
+                [SCKSocket SCKNetWriteDataWithSocket:self.clientSocket data:writeString size:700];
+            }
         }
     }
 }
+
 
 @end

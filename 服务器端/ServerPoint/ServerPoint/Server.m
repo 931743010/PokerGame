@@ -159,13 +159,6 @@ static Server *signServer = nil;
     NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(watchThread) object:nil];
     [thread start];
 }
-/**
- *  创建监听线程，当客户端异常断开，需要结束对应线程
- */
--(void)createThreadForWatchUselessThread{
-    NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(watchUselessThread) object:nil];
-    [thread start];
-}
 
 
 /**
@@ -206,7 +199,7 @@ static Server *signServer = nil;
             myThread.name = [NSString stringWithFormat:@"%d", accept];
             [myThread start];
         }
-        NSLog(@"dic = %@", _socketAndNameDic);
+        //NSLog(@"dic = %@", _socketAndNameDic);
     }
 }
 
@@ -219,11 +212,8 @@ static Server *signServer = nil;
  *  @param accept 客户端的socket号
  */
 -(void)run:(NSNumber *)accept{
-    NSLog(@"in run");
-    
     NSMutableString *readString = [[NSMutableString alloc] initWithCapacity:700];
     NSMutableString *writeString = [[NSMutableString alloc] initWithCapacity:700];
-
     //首次发送当前房间信息
     [writeString appendFormat:@"FIRSTREFRESHROOMINFO##%@", [self allRoomInfoView]];
     [SCKSocket SCKNetWriteDataWithSocket:[accept intValue] data:writeString size:700];
@@ -263,6 +253,10 @@ static Server *signServer = nil;
                 }
             }
         }
+        else if ([array[0] isEqualToString:@"REFRESHROOM"]){
+            [writeString appendFormat:@"FIRSTREFRESHROOMINFO##%@", [self allRoomInfoView]];
+            [SCKSocket SCKNetWriteDataWithSocket:[accept intValue] data:writeString size:700];
+        }
     }
 }
 
@@ -278,7 +272,6 @@ static Server *signServer = nil;
             //为3时则开始游戏
             if (room.personNum == 3) {
                 room.personNum = 0;
-                CardBox *cardBox = [CardBox defaultBox];
                 
                 for (int loop = 0; loop < 3; loop++) {
                     HandCard *handCard = [[HandCard alloc] init];
@@ -297,7 +290,7 @@ static Server *signServer = nil;
                 }
                 
                 //合成三个人手牌的整体信息
-                NSMutableString *allPlayerCards = [[NSMutableString alloc] initWithString:@"GAMEOFCARDSINFO##RET:"];
+                NSMutableString *allPlayerCards = [[NSMutableString alloc] initWithString:@"GAMEOFCARDSINFO##RAT:"];
                 for (HandCard *h in threeHandCards) {
                     [allPlayerCards appendFormat:@"\n%@", h];
                 }
@@ -330,21 +323,4 @@ static Server *signServer = nil;
         }
     }
 }
-
-/**
- *  监听线程，当客户端异常断开，需要结束对应线程
- */
--(void)watchUselessThread{
-    NSString *writeString = @"WATCHUSELESS##USELESS";
-    
-    while (1) {
-        sleep(5);
-        for (NSNumber *accept in _socketAndNameDic) {
-            int len = [SCKSocket SCKNetWriteDataWithSocket:[accept intValue] data:writeString size:700];
-            NSLog(@"%@  :  %d", accept, len);
-        }
-    }
-}
-
-
 @end

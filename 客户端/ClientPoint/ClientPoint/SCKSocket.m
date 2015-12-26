@@ -16,7 +16,7 @@
  *  @param nPort      服务器端口号
  *  @param timeOut    延时时间，0为不延时
  *
- *  @return socket号
+ *  @return >0成功   -1失败
  */
 +(int)SCKNetConnectWithServerAddress:(NSString *)hostAdress andPort:(int)nPort andDelayTime:(int)timeOut{
     
@@ -112,11 +112,11 @@
 /**
  *  发送数据
  *
- *  @param nSocket    对方socket号
+ *  @param nSocket    socket
  *  @param dataString 数据
  *  @param lWriteSize 预计写数据长度
  *
- *  @return 实际写入长度
+ *  @return 写入字节数  -1失败
  */
 +(NSUInteger)SCKNetWriteDataWithSocket:(int)nSocket data:(NSString *)dataString size:(int)lWriteSize{
     
@@ -162,11 +162,11 @@
 /**
  *  读取数据
  *
- *  @param nSocket    对方端口号
+ *  @param nSocket    socket
  *  @param readString 保存读取数据
  *  @param lReadSize  预计读取数据长度
  *
- *  @return 实际读取数据长度
+ *  @return 读取字节长度   -1失败
  */
 +(NSUInteger)SCKNetReadDataWithSocket:(int)nSocket data:(NSMutableString *)readString size:(long)lReadSize{
     

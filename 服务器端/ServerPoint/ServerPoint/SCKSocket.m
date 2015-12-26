@@ -15,7 +15,7 @@
  *
  *  @param nPort 设定端口号
  *
- *  @return socket号
+ *  @return >0成功   -1失败
  */
 +(int)SCKNetMakeSocketWithPort:(int)nPort{
     struct sockaddr_in sin;
@@ -51,13 +51,13 @@
 }
 
 /**
- *  等待客户端连接
+ *  接受请求，建立链接
  *
  *  @param nSocket   socket号
  *  @param address   连接上的客户端地址
- *  @param blockFlag 是否阻塞 1阻塞 0非阻塞
+ *  @param blockFlag 阻塞标志 1阻塞 0非阻塞
  *
- *  @return <#return value description#>
+ *  @return >0成功   -1失败     -2无请求
  */
 +(int)SCKNetAcceptSocketWithSocket:(int)nSocket receiveClientIp:(NSMutableString *)address isBlock:(char)blockFlag{
     
@@ -93,11 +93,11 @@
 /**
  *  发送数据
  *
- *  @param nSocket    对方socket号
+ *  @param nSocket    socket
  *  @param dataString 数据
  *  @param lWriteSize 预计写数据长度
  *
- *  @return 实际写入长度
+ *  @return 写入字节数  -1失败
  */
 +(NSUInteger)SCKNetWriteDataWithSocket:(int)nSocket data:(NSString *)dataString size:(int)lWriteSize{
     
@@ -143,11 +143,11 @@
 /**
  *  读取数据
  *
- *  @param nSocket    对方端口号
+ *  @param nSocket    socket
  *  @param readString 保存读取数据
  *  @param lReadSize  预计读取数据长度
  *
- *  @return 实际读取数据长度
+ *  @return 读取字节长度   -1失败
  */
 +(NSUInteger)SCKNetReadDataWithSocket:(int)nSocket data:(NSMutableString *)readString size:(long)lReadSize{
     

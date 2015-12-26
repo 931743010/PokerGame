@@ -49,7 +49,4 @@
 
 //创建监听线程，当房间人数为3时则开始游戏
 -(void)createThreadForWatchRoomPerNum;
-
-//创建监听线程，当客户端异常断开，需要结束对应线程
--(void)createThreadForWatchUselessThread;
 @end

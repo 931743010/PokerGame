@@ -27,9 +27,6 @@ int main(int argc, const char * argv[])
         //
         [server createThreadForWatchRoomPerNum];
         
-        //
-        [server createThreadForWatchUselessThread];
-        
         //等待客户端连接
         [server waitForClientJoin];
         

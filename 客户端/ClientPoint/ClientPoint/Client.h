@@ -20,10 +20,13 @@
 @property (nonatomic, assign) int clientSocket;
 
 
+
 //加载客户端
 -(void)viewDidLoad;
 
 //执行线程
 -(void)run;
+
+
 
 @end
