@@ -12,7 +12,8 @@
 -(void)scanfName;
 -(void)readClientConfigFile:(NSString *)path;
 -(void)linkHostWithAddress:(NSString *)address andPoint:(NSNumber *)point;
--(BOOL)testPersonName:(NSString *)name;
+-(void)testPersonName:(NSString *)name;
+-(void)playGame;
 
 @end
 
@@ -36,5 +37,8 @@
 -(void)configFile:(NSString *)path;
 //连接服务器
 -(void)joinServerWithAddress:(NSString *)address andPoint:(int)point;
-
+//验证用户名
+-(void)checkName;
+//开始玩游戏
+-(void)play;
 @end

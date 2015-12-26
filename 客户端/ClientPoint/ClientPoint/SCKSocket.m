@@ -9,90 +9,15 @@
 #import "SCKSocket.h"
 
 @implementation SCKSocket
-
-////连接服务器
-//+(int)SCKNetConnectWithServerAddress:(char *)host andPort:(int)nPort andDelayTime:(int)timeOut{
-//    int nSocket, ipAddr, flags=0;
-//    unsigned long ul = 1;
-//    struct sockaddr_in sin;
-//    struct hostent *ph;
-//    
-//    int nValue=1;
-//    
-//    nSocket = socket( AF_INET,SOCK_STREAM, 0 );
-//    if ( -1 == nSocket ){
-//        return -1;
-//    }
-//    
-//    if(timeOut > 0){
-//        flags = fcntl(nSocket, F_GETFL, 0);
-//        fcntl(nSocket, F_SETFL, flags | O_NONBLOCK);
-//        bzero(&sin,sizeof(sin));
-//    }
-//    
-//    bzero(&sin,sizeof(sin));
-//    
-//    sin.sin_family=AF_INET;
-//    sin.sin_port=htons(nPort);
-//    
-//    ipAddr = inet_addr(host);
-//    if(ipAddr != -1){
-//        memcpy(&(sin.sin_addr.s_addr), &ipAddr, sizeof(ipAddr));
-//    }else{
-//        if(NULL == (ph = gethostbyname(host))){
-//            return -1;
-//        }
-//        memcpy(&(sin.sin_addr.s_addr), ph->h_addr, ph->h_length);
-//    }
-//    if(timeOut <= 0){
-//        if(-1 == connect(nSocket, (struct sockaddr *)&sin, sizeof(sin))){
-//            [self SCKNetCloseSocket:&nSocket];
-//            return -1;
-//        }
-//    }else{
-//        struct timeval tmv ;
-//        fd_set r;
-//        int ret = 0;
-//        
-//        tmv.tv_sec =  timeOut/1000;
-//        tmv.tv_usec = 1000 * (timeOut - tmv.tv_sec * 1000);
-//        
-//        if(-1 == connect(nSocket, (struct sockaddr *) &sin, sizeof(sin) )){
-//            if(errno == EINPROGRESS){
-//                FD_ZERO(&r);
-//                FD_SET(nSocket, &r);
-//                ret = select(nSocket+1, NULL, &r, NULL, &tmv);
-//                if(ret > 0){
-//                    int error = 0;
-//                    getsockopt(nSocket, SOL_SOCKET, SO_ERROR, &error, &nValue);
-//                    if(error != 0){
-//                        [self SCKNetCloseSocket:&nSocket];
-//                        return -1;
-//                    }
-//                }
-//                else if(ret == 0){
-//                    [self SCKNetCloseSocket:&nSocket];
-//                    return -1;
-//                }
-//                else{
-//                    [self SCKNetCloseSocket:&nSocket];
-//                    return -1;
-//                }
-//            }
-//            else{
-//                [self SCKNetCloseSocket:&nSocket];
-//                return -1;
-//            }
-//        }
-//        fcntl(nSocket, F_SETFL, flags);
-//    }
-//    
-//    nValue =1;
-//    setsockopt(nSocket, SOL_SOCKET, SO_KEEPALIVE, &nValue, sizeof(int));
-//    return nSocket;
-//}
-
-//连接服务器
+/**
+ *  连接服务器
+ *
+ *  @param hostAdress 服务器主机地址
+ *  @param nPort      服务器端口号
+ *  @param timeOut    延时时间，0为不延时
+ *
+ *  @return socket号
+ */
 +(int)SCKNetConnectWithServerAddress:(NSString *)hostAdress andPort:(int)nPort andDelayTime:(int)timeOut{
     
     //得到C字符串主机地址

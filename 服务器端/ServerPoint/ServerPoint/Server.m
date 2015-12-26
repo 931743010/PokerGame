@@ -9,6 +9,8 @@
 #import "Server.h"
 #import "Room.h"
 #import "SCKSocket.h"
+#import "HandCard.h"
+#import "CardBox.h"
 
 #define ROOMCOUNT 20     //房间数量
 
@@ -18,17 +20,10 @@ static Server *signServer = nil;
 /**
  *  构造方法
  *
- *  @return 返回自己的地址
+ *  @param path 配制文件地址
+ *
+ *  @return 对象
  */
--(id)init{
-    if (self = [super init]) {
-        _allRoomInfo = [[NSMutableArray alloc] initWithCapacity:ROOMCOUNT];
-        _socketAndNameDic = [[NSMutableDictionary alloc] initWithCapacity:ROOMCOUNT * 3];
-        
-        //读取配置文件，获取主机IP于端口号
-    }
-    return self;
-}
 -(id)initWithFile:(NSString *)path{
     if (self = [super init]) {
         _allRoomInfo = [[NSMutableArray alloc] initWithCapacity:ROOMCOUNT];
@@ -157,7 +152,25 @@ static Server *signServer = nil;
 }
 
 
+/**
+ *  创建监听线程，当房间人数为3时则开始游戏
+ */
+-(void)createThreadForWatchRoomPerNum{
+    NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(watchThread) object:nil];
+    [thread start];
+}
+/**
+ *  创建监听线程，当客户端异常断开，需要结束对应线程
+ */
+-(void)createThreadForWatchUselessThread{
+    NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(watchUselessThread) object:nil];
+    [thread start];
+}
 
+
+/**
+ *  等待用户连接
+ */
 -(void)waitForClientJoin{
     while (1) {
         NSLog(@"等待客户端连接……\n\n\n");
@@ -165,12 +178,12 @@ static Server *signServer = nil;
         int accept = [SCKSocket SCKNetAcceptSocketWithSocket:self.socketNum receiveClientIp:clientAddress isBlock:1];
         //NSLog(@"clientAddress = %@", clientAddress);
         
-        
         NSMutableString *readString = [[NSMutableString alloc] initWithCapacity:700];
         [SCKSocket SCKNetReadDataWithSocket:accept data:readString size:700];
         
         //验证用户名是否可用
         int flag = 0;
+        
         for (NSNumber *key in _socketAndNameDic) {
             NSString *oneName = _socketAndNameDic[key];
             if ([oneName isEqualToString:readString]) {
@@ -193,54 +206,144 @@ static Server *signServer = nil;
             myThread.name = [NSString stringWithFormat:@"%d", accept];
             [myThread start];
         }
+        NSLog(@"dic = %@", _socketAndNameDic);
     }
 }
 
+
+
+//*************线程方法****************
+/**
+ *  对应于客户端的执行线程
+ *
+ *  @param accept 客户端的socket号
+ */
 -(void)run:(NSNumber *)accept{
     NSLog(@"in run");
     
-//    NSMutableString *readString = [[NSMutableString alloc] initWithCapacity:700];
-//    NSMutableString *writeString = [[NSMutableString alloc] initWithCapacity:700];
-//    
-//    //首次发送当前房间信息
-//    [writeString appendFormat:@"FIRSTREFRESHROOMINFO##%@", [self roomInfoView]];
-//    [SCKSocket SCKNetWriteDataWithSocket:[accept intValue] data:writeString size:700];
-//    [writeString setString:@""];
-//    
-//    while (1) {
-//        //读取服务器发送的数据
-//        [readString setString:@""];
-//        [writeString setString:@""];
-//        [SCKSocket SCKNetReadDataWithSocket:[accept intValue] data:readString size:700];
-//        
-//        NSArray *array = [readString componentsSeparatedByString:@"##"];
-//        
-//        if ([array[0] isEqualToString:@"CHOOSEROOM"]) {
-//            //判断房间是否可用
-//            BOOL is = [self isExistFreeRoom:array[1]];
-//            if (!is) {
-//                //房间不可用
-//                [SCKSocket SCKNetWriteDataWithSocket:[accept intValue] data:@"ROOM##NO" size:700];
-//            }else{
-//                //房间可用
-//                [SCKSocket SCKNetWriteDataWithSocket:[accept intValue] data:@"ROOM##YES" size:700];
-//                
-//                //房间相应人数增加一人
-//                for (Room *room in _allRoomInfo) {
-//                    if (room.roomNum == [array[1] intValue]) {
-//                        room.personNum += 1;
-//                        [room.threePersonArray addObject:accept];
-//                    }
-//                }
-//                //通知每一个用户刷新房间信息
-//                for (NSNumber *socket in _socketAndNameDic) {
-//                    [writeString appendFormat:@"ALLREFRESHROOMINFO##%@", [self roomInfoView]];
-//                    [SCKSocket SCKNetWriteDataWithSocket:[socket intValue] data:writeString size:700];
-//                    [writeString setString:@""];
-//                }
-//            }
-//        }
-//    }
+    NSMutableString *readString = [[NSMutableString alloc] initWithCapacity:700];
+    NSMutableString *writeString = [[NSMutableString alloc] initWithCapacity:700];
+
+    //首次发送当前房间信息
+    [writeString appendFormat:@"FIRSTREFRESHROOMINFO##%@", [self allRoomInfoView]];
+    [SCKSocket SCKNetWriteDataWithSocket:[accept intValue] data:writeString size:700];
+    
+    while (1) {
+        //读取服务器发送的数据
+        [readString setString:@""];
+        [writeString setString:@""];
+        [SCKSocket SCKNetReadDataWithSocket:[accept intValue] data:readString size:700];
+        
+        NSArray *array = [readString componentsSeparatedByString:@"##"];
+        
+        if ([array[0] isEqualToString:@"CHOOSEROOM"]) {
+            //判断房间是否可用
+            BOOL is = [self isExistFreeRoom:array[1]];
+            if (!is) {
+                //房间不可用
+                [SCKSocket SCKNetWriteDataWithSocket:[accept intValue] data:@"ROOM##NO" size:700];
+            }else{
+                //房间可用
+                [SCKSocket SCKNetWriteDataWithSocket:[accept intValue] data:@"ROOM##YES" size:700];
+                
+                //房间相应人数增加一人
+                for (Room *room in _allRoomInfo) {
+                    if (room.roomNum == [array[1] intValue]) {
+                        room.personNum += 1;
+                        [room.threePersonArray addObject:accept];
+                    }
+                }
+                
+                
+                //通知每一个用户刷新房间信息
+                for (NSNumber *socket in _socketAndNameDic) {
+                    [writeString setString:@""];
+                    [writeString appendFormat:@"ALLREFRESHROOMINFO##%@", [self allRoomInfoView]];
+                    [SCKSocket SCKNetWriteDataWithSocket:[socket intValue] data:writeString size:700];
+                }
+            }
+        }
+    }
+}
+
+/**
+ *  监听线程，当房间人数为3时则开始游戏
+ */
+-(void)watchThread{
+    NSMutableString *writeString = [[NSMutableString alloc] initWithCapacity:700];
+    NSMutableArray *threeHandCards = [[NSMutableArray alloc] initWithCapacity:3];
+    while (1) {
+        sleep(1);
+        for (Room *room in _allRoomInfo) {
+            //为3时则开始游戏
+            if (room.personNum == 3) {
+                room.personNum = 0;
+                CardBox *cardBox = [CardBox defaultBox];
+                
+                for (int loop = 0; loop < 3; loop++) {
+                    HandCard *handCard = [[HandCard alloc] init];
+                    [threeHandCards addObject:handCard];
+                }
+                [HandCard grabCards:3 personArray:threeHandCards];
+                
+                [HandCard calculateEveryPersonHandCardsPointSumFromArray:threeHandCards];
+                //找到牌值最大的值
+                int max = [[threeHandCards objectAtIndex:0] handCardsPointSum];
+                if ([[threeHandCards objectAtIndex:1] handCardsPointSum] > max) {
+                    max = [[threeHandCards objectAtIndex:1] handCardsPointSum];
+                }
+                if ([[threeHandCards objectAtIndex:2] handCardsPointSum] > max) {
+                    max = [[threeHandCards objectAtIndex:2] handCardsPointSum];
+                }
+                
+                //合成三个人手牌的整体信息
+                NSMutableString *allPlayerCards = [[NSMutableString alloc] initWithString:@"GAMEOFCARDSINFO##RET:"];
+                for (HandCard *h in threeHandCards) {
+                    [allPlayerCards appendFormat:@"\n%@", h];
+                }
+                
+                //发给每个人
+                int i = 0;
+                int flag = 0;
+                for (NSNumber *accp in room.threePersonArray) {
+                    [writeString appendString:@"HANDCARDINFO##"];
+                    [SCKSocket SCKNetWriteDataWithSocket:[accp intValue] data:allPlayerCards size:700];
+                    
+                    HandCard *m = threeHandCards[i++];
+                    [writeString appendFormat:@"%@", m];
+                    if (m.handCardsPointSum == max && flag == 0) {
+                        [writeString appendString:@"##WINER"];
+                        flag++;
+                    }else{
+                        [writeString appendString:@"##LOSER"];
+                    }
+                    [SCKSocket SCKNetWriteDataWithSocket:[accp intValue] data:writeString size:700];
+                    [writeString setString:@""];
+                }
+                
+                [room.threePersonArray removeAllObjects];
+                [threeHandCards removeAllObjects];
+                
+                
+                [CardBox deleteSign];
+            }
+        }
+    }
+}
+
+/**
+ *  监听线程，当客户端异常断开，需要结束对应线程
+ */
+-(void)watchUselessThread{
+    NSString *writeString = @"WATCHUSELESS##USELESS";
+    
+    while (1) {
+        sleep(5);
+        for (NSNumber *accept in _socketAndNameDic) {
+            int len = [SCKSocket SCKNetWriteDataWithSocket:[accept intValue] data:writeString size:700];
+            NSLog(@"%@  :  %d", accept, len);
+        }
+    }
 }
 
 

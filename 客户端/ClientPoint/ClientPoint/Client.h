@@ -7,8 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Person.h"
 
-@interface Client : NSObject
+@interface Client : NSObject <PersonDelegate>
+//房间是否可用
+@property (nonatomic, assign) BOOL isUse;
 //主机ip地址（配置文件中读取）
 @property (nonatomic, copy) NSString *hostAddress;
 //主机端口号（配置文件中读取）
@@ -19,5 +22,8 @@
 
 //加载客户端
 -(void)viewDidLoad;
+
+//执行线程
+-(void)run;
 
 @end

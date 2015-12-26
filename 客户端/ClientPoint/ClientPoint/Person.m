@@ -31,5 +31,16 @@
         [_delegate performSelector:sel withObject:address withObject:[NSNumber numberWithInt:point]];
     }
 }
-
+-(void)checkName{
+    SEL sel = @selector(testPersonName:);
+    if ([_delegate respondsToSelector:sel]) {
+        [_delegate performSelector:sel withObject:self.name];
+    }
+}
+-(void)play{
+    SEL sel = @selector(playGame);
+    if ([_delegate respondsToSelector:sel]) {
+        [_delegate performSelector:sel withObject:self.name];
+    }
+}
 @end

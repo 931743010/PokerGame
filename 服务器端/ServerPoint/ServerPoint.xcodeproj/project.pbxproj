@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC87F2A61C2F00C300BA9833 /* Card.m in Sources */ = {isa = PBXBuildFile; fileRef = BC87F2A11C2F00C300BA9833 /* Card.m */; };
+		BC87F2A71C2F00C300BA9833 /* CardBox.m in Sources */ = {isa = PBXBuildFile; fileRef = BC87F2A31C2F00C300BA9833 /* CardBox.m */; };
+		BC87F2A81C2F00C300BA9833 /* HandCard.m in Sources */ = {isa = PBXBuildFile; fileRef = BC87F2A51C2F00C300BA9833 /* HandCard.m */; };
 		BC9E79AA1C1EBEB60037C5EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC9E79A91C1EBEB60037C5EC /* Foundation.framework */; };
 		BC9E79AD1C1EBEB60037C5EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9E79AC1C1EBEB60037C5EC /* main.m */; };
 		BC9E79B11C1EBEB60037C5EC /* ServerPoint.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = BC9E79B01C1EBEB60037C5EC /* ServerPoint.1 */; };
@@ -29,6 +32,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		BC87F2A01C2F00C300BA9833 /* Card.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Card.h; sourceTree = "<group>"; };
+		BC87F2A11C2F00C300BA9833 /* Card.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Card.m; sourceTree = "<group>"; };
+		BC87F2A21C2F00C300BA9833 /* CardBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardBox.h; sourceTree = "<group>"; };
+		BC87F2A31C2F00C300BA9833 /* CardBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardBox.m; sourceTree = "<group>"; };
+		BC87F2A41C2F00C300BA9833 /* HandCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HandCard.h; sourceTree = "<group>"; };
+		BC87F2A51C2F00C300BA9833 /* HandCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HandCard.m; sourceTree = "<group>"; };
 		BC9E79A61C1EBEB60037C5EC /* ServerPoint */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ServerPoint; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC9E79A91C1EBEB60037C5EC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BC9E79AC1C1EBEB60037C5EC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -84,6 +93,12 @@
 			isa = PBXGroup;
 			children = (
 				BC9E79AC1C1EBEB60037C5EC /* main.m */,
+				BC87F2A01C2F00C300BA9833 /* Card.h */,
+				BC87F2A11C2F00C300BA9833 /* Card.m */,
+				BC87F2A21C2F00C300BA9833 /* CardBox.h */,
+				BC87F2A31C2F00C300BA9833 /* CardBox.m */,
+				BC87F2A41C2F00C300BA9833 /* HandCard.h */,
+				BC87F2A51C2F00C300BA9833 /* HandCard.m */,
 				BCE158E91C201A9B0004102B /* SCKSocket.h */,
 				BCE158EA1C201A9B0004102B /* SCKSocket.m */,
 				BCE158E61C2015B50004102B /* Room.h */,
@@ -156,10 +171,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC87F2A61C2F00C300BA9833 /* Card.m in Sources */,
 				BCE158EB1C201A9B0004102B /* SCKSocket.m in Sources */,
 				BCE158E81C2015B50004102B /* Room.m in Sources */,
 				BCE158E51C2010D00004102B /* Server.m in Sources */,
 				BC9E79AD1C1EBEB60037C5EC /* main.m in Sources */,
+				BC87F2A81C2F00C300BA9833 /* HandCard.m in Sources */,
+				BC87F2A71C2F00C300BA9833 /* CardBox.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
